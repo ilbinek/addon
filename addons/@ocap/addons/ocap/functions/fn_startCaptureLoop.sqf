@@ -35,15 +35,26 @@ while {ocap_capture} do {
 					_x setVariable ["ocap_exclude", true];
 					_x setVariable ["ocap_isInitialised", true];
 				};
+
 				_x setVariable ["ocap_id", _id];
+
 				[":NEW:UNIT:", [
 					ocap_captureFrameNo, //1
 					_id, //2
 					name _x, //3
-					groupID (group _x), //4 TODO if tracked in UPDATE:UNIT, something other than group can go here
+					groupID (group _x), //4
 					str side group _x, //5
 					BOOL(isPlayer _x), //6
-					roleDescription _x // 7
+					roleDescription _x, //7
+					if (ocap_automaticIdentifyUnitGroupLeader) then {
+						if (leader group _x == leader player) then {1} else {0}
+					} else {
+						if (!isNil "ocap_api_identifyUnitGroupLeader") {
+							if ([_x] call ocap_api_identifyUnitGroupLeader) then {1} else {0}
+						} else {
+							0
+						}
+					} //8
 				]] call ocap_fnc_extension;
 				_x spawn ocap_fnc_addEventHandlers;
 				_id = _id + 1;
@@ -82,7 +93,16 @@ while {ocap_capture} do {
 					if (alive _x) then {name _x} else {""}, //6
 					BOOL(isPlayer _x), //7
 					_unitRole, //8
-					_currentGroup //9
+					if (ocap_automaticIdentifyUnitGroupLeader) then {
+						if (leader group _x == leader player) then {1} else {0}
+					} else {
+						if (!isNil "ocap_api_identifyUnitGroupLeader") {
+							if ([_x] call ocap_api_identifyUnitGroupLeader) then {1} else {0}
+						} else {
+							0
+						}
+					}, //9
+					_currentGroup //10
 				]] call ocap_fnc_extension;
 			};
 			false
