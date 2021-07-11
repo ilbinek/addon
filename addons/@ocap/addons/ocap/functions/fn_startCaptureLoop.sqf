@@ -49,7 +49,7 @@ while {ocap_capture} do {
 					if (ocap_automaticIdentifyUnitGroupLeader) then {
 						if (leader group _x == leader player) then {1} else {0}
 					} else {
-						if (!isNil "ocap_api_identifyUnitGroupLeader") {
+						if (!isNil "ocap_api_identifyUnitGroupLeader") then {
 							if ([_x] call ocap_api_identifyUnitGroupLeader) then {1} else {0}
 						} else {
 							0
@@ -96,7 +96,7 @@ while {ocap_capture} do {
 					if (ocap_automaticIdentifyUnitGroupLeader) then {
 						if (leader group _x == leader player) then {1} else {0}
 					} else {
-						if (!isNil "ocap_api_identifyUnitGroupLeader") {
+						if (!isNil "ocap_api_identifyUnitGroupLeader") then {
 							if ([_x] call ocap_api_identifyUnitGroupLeader) then {1} else {0}
 						} else {
 							0
