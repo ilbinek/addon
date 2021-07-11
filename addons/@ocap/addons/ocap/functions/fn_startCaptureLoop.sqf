@@ -40,7 +40,7 @@ while {ocap_capture} do {
 					ocap_captureFrameNo, //1
 					_id, //2
 					name _x, //3
-					groupID (group _x), //4
+					groupID (group _x), //4 TODO if tracked in UPDATE:UNIT, something other than group can go here
 					str side group _x, //5
 					BOOL(isPlayer _x), //6
 					roleDescription _x // 7
@@ -55,6 +55,11 @@ while {ocap_capture} do {
 				if (ocap_captureFrameNo % 10 == 0 || _unitRole == "") then {
 					_unitRole = [_x] call ocap_fnc_getUnitType;
 					_x setVariable ["ocap_unitType", _unitRole];
+				};
+
+				private _currentGroup = _x getVariable ["ocap_currentGroup", ""];
+				if (ocap_captureFrameNo % 10 == 0 || _currentGroup == "") then {
+					_currentGroup = groupID (group _x);
 				};
 
 				_pos = getPosATL _x;
@@ -76,7 +81,8 @@ while {ocap_capture} do {
 					BOOL(!((vehicle _x) isEqualTo _x)),  //5
 					if (alive _x) then {name _x} else {""}, //6
 					BOOL(isPlayer _x), //7
-					_unitRole //8
+					_unitRole, //8
+					_currentGroup //9
 				]] call ocap_fnc_extension;
 			};
 			false
