@@ -107,7 +107,7 @@ if (isNil QEGVAR(EH,Ended)) then {
 
 // Add event saving markers
 if (isNil QEGVAR(listener,markers)) then {
-  call FUNC(handleMarkers);
+  call FUNC(handleMarkersSWT);
 };
 
 

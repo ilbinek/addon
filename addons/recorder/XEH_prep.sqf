@@ -14,6 +14,7 @@ PREP(getUnitType);
 PREP(addEventMission);
 PREP(handleCustomEvent);
 PREP(handleMarkers);
+PREP(handleMarkersSWT);
 PREP(addUnitEventHandlers);
 
 PREP(eh_connected);
