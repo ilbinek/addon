@@ -157,15 +157,35 @@ EGVAR(listener,markers) = [QGVARMAIN(handleMarkersSWT), {
   if (_channel == "GL") then {_player = objNull};
   // Change the color to a text representation - swt_cfgmarkerColors_names is a global var with this representation
   _color = swt_cfgMarkerColors_names select _color;
+
+  private _size = [1, 1];
+  private _shape = "ICON";
+  private _brush = "SOLID";
   // Change the type to a text representation - swt_cfgMarkers_names is a global var with this representation
-  _type = swt_cfgMarkers_names select _type;
+  if (_type == -2) then {
+    diag_log _scale;
+    _type = "mil_dot";
+    _shape = "RECTANGLE";
+    _brush = "SolidBorder";
+    _size = [_scale#0, _scale#1];
+  } else {
+    if (_type == -3) then {
+      diag_log _scale;
+      _type = "mil_dot";
+      _shape = "ELLIPSE";
+      _brush = "SolidBorder";
+      _size = [_scale#0, _scale#1];
+    } else {
+      _type = swt_cfgMarkers_names select _type;
+      _size = [ _scale, _scale];
+    };
+  };
+  
   // Pos add elevation? Ask Indigo
   _pos set [2, 69420];
-  // Set size
-  private _size = [1 * _scale, 1 * _scale];
 
   // Create params to pass to the event handler
-  private _params = ["CREATED", _name, _player, _pos, _type, "ICON", _size, _dir, "SOLID", _color, 1, _text, false, _time];
+  private _params = ["CREATED", _name, _player, _pos, _type, _shape, _size, _dir, _brush, _color, 1, _text, false, _time];
 
   [GVAR(trackedMarkersSWT), _name, _params] call CBA_fnc_hashSet;
 
