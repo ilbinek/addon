@@ -147,9 +147,6 @@ EGVAR(listener,markers) = [QGVARMAIN(handleMarkersSWT), {
   // Explode the _marker into vars
   _marker params ["_name", "_channel", "_text", "_pos", "_type", "_color", "_dir", "_scale", "_ownerName", "_time", "_brush", "_side"];
   
-  private _shape = "ICON";
-  private _size;
-
   // Check if the marker is already tracked
   if (_name in GVAR(trackedMarkers)) exitWith {};
 
@@ -161,32 +158,14 @@ EGVAR(listener,markers) = [QGVARMAIN(handleMarkersSWT), {
   // Change the color to a text representation - swt_cfgmarkerColors_names is a global var with this representation
   _color = swt_cfgMarkerColors_names select _color;
   // Change the type to a text representation - swt_cfgMarkers_names is a global var with this representation
-  switch (_type) do {
-    case -2: {
-      diag_log "RECTANGLE";
-      _shape = "RECTANGLE";
-      _type = "mil_dot";
-      _size = [_scale#0, _scale#1];
-    };
-
-    case -3: {
-      diag_log "ELLIPSE";
-      _shape = "ELLIPSE";
-      _type = "mil_dot";
-      _size = [_scale#0, _scale#1];
-    };
-
-    default {
-      diag_log "default";
-      _type = swt_cfgMarkers_names select _type;
-      _size = [_scale, _scale];
-    };
-  };
+  _type = swt_cfgMarkers_names select _type;
   // Pos add elevation? Ask Indigo
   _pos set [2, 69420];
+  // Set size
+  private _size = [1 * _scale, 1 * _scale];
 
   // Create params to pass to the event handler
-  private _params = ["CREATED", _name, _player, _pos, _type, _shape, _size, _dir, "SOLID", _color, 1, _text, false, _time];
+  private _params = ["CREATED", _name, _player, _pos, _type, "ICON", _size, _dir, "SOLID", _color, 1, _text, false, _time];
 
   [GVAR(trackedMarkersSWT), _name, _params] call CBA_fnc_hashSet;
 
