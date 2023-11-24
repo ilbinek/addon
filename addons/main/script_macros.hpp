@@ -30,9 +30,6 @@
 // Used to determine if events should currently be saved based on <OCAP_recorder_recording> and <OCAP_recorder_startTime>.
 #define SHOULDSAVEEVENTS ((missionNamespace getVariable [QEGVAR(recorder,recording), false]) && missionNamespace getVariable [QEGVAR(recorder,startTime), -1] > -1)
 
-#define DEBUG_MODE_NORMAL
-// #define DEBUG_MODE_FULL
-
 // DEFINE: BOOL
 // Forces a true/false return of input.
 #define BOOL(_cond) ([0,1] select (_cond))
